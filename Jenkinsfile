@@ -1,10 +1,23 @@
 pipeline {
-    agent { docker { image 'maven:3.3.3' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'mvn --version'
-            }
-        }
+  agent {
+    docker {
+      image 'maven:3.3.3'
     }
+
+  }
+  stages {
+    stage('build') {
+      steps {
+        sh 'mvn --version'
+        sh './mvnw package'
+      }
+    }
+
+    stage('deploy') {
+      steps {
+        sh 'java -jar target/*.jar'
+      }
+    }
+
+  }
 }
